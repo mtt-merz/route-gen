@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "nodemon src/main.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "biome check --apply ."
   },
@@ -14,5 +15,9 @@
   "dependencies": {
     "@biomejs/biome": "^1.5.3",
     "nodemon": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "typescript": "^5.3.3"
   }
 }

@@ -1,131 +1,131 @@
 {
-	"path": "/",
-	"children": [
-		{
-			"path": "categories",
-			"children": [
-				{
-					"path": ":categoryID",
-					"children": [
-						{
-							"index": true,
-							"element": "<CategoryDetailPage />"
-						}
-					]
-				}
-			]
-		},
-		{
-			"path": "items",
-			"children": [
-				{
-					"path": ":itemID",
-					"children": [
-						{
-							"index": true,
-							"element": "<ItemDetailPage />"
-						}
-					]
-				}
-			]
-		},
-		{
-			"path": "menus",
-			"children": [
-				{
-					"path": ":menuID",
-					"children": [
-						{
-							"index": true,
-							"element": "<MenuDetailPage />"
-						}
-					]
-				}
-			]
-		},
-		{
-			"path": "merchants",
-			"children": [
-				{
-					"path": ":merchantID",
-					"children": [
-						{
-							"path": "categories",
-							"children": [
-								{
-									"index": true,
-									"element": "<CategoriesPage />"
-								}
-							]
-						},
-						{
-							"path": "items",
-							"children": [
-								{
-									"index": true,
-									"element": "<ItemsPage />"
-								}
-							]
-						},
-						{
-							"path": "menus",
-							"children": [
-								{
-									"index": true,
-									"element": "<MenusPage />"
-								}
-							]
-						},
-						{
-							"path": "modifier-groups",
-							"children": [
-								{
-									"index": true,
-									"element": "<ModifierGroupsPage />"
-								}
-							]
-						},
-						{
-							"path": "schedules",
-							"children": [
-								{
-									"index": true,
-									"element": "<SchedulesPage />"
-								}
-							]
-						}
-					],
-					"element": "<MerchantLayout />"
-				}
-			]
-		},
-		{
-			"path": "modifier-groups",
-			"children": [
-				{
-					"path": ":modifierGroupID",
-					"children": [
-						{
-							"index": true,
-							"element": "<ModifierGroupDetailPage />"
-						}
-					]
-				}
-			]
-		},
-		{
-			"path": "schedules",
-			"children": [
-				{
-					"path": ":scheduleID",
-					"children": [
-						{
-							"index": true,
-							"element": "<ScheduleDetailPage />"
-						}
-					]
-				}
-			]
-		}
-	]
+  "path": "/",
+  "children": [
+    {
+      "path": "categories",
+      "children": [
+        {
+          "path": ":categoryID",
+          "children": [
+            {
+              "index": true,
+              "element": "<CategoryDetailPage />"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "items",
+      "children": [
+        {
+          "path": ":itemID",
+          "children": [
+            {
+              "index": true,
+              "element": "<ItemDetailPage />"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "menus",
+      "children": [
+        {
+          "path": ":menuID",
+          "children": [
+            {
+              "index": true,
+              "element": "<MenuDetailPage />"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "merchants",
+      "children": [
+        {
+          "path": ":merchantID",
+          "children": [
+            {
+              "path": "categories",
+              "children": [
+                {
+                  "index": true,
+                  "element": "<CategoriesPage />"
+                }
+              ]
+            },
+            {
+              "path": "items",
+              "children": [
+                {
+                  "index": true,
+                  "element": "<ItemsPage />"
+                }
+              ]
+            },
+            {
+              "path": "menus",
+              "children": [
+                {
+                  "index": true,
+                  "element": "<MenusPage />"
+                }
+              ]
+            },
+            {
+              "path": "modifier-groups",
+              "children": [
+                {
+                  "index": true,
+                  "element": "<ModifierGroupsPage />"
+                }
+              ]
+            },
+            {
+              "path": "schedules",
+              "children": [
+                {
+                  "index": true,
+                  "element": "<SchedulesPage />"
+                }
+              ]
+            }
+          ],
+          "element": "<MerchantLayout />"
+        }
+      ]
+    },
+    {
+      "path": "modifier-groups",
+      "children": [
+        {
+          "path": ":modifierGroupID",
+          "children": [
+            {
+              "index": true,
+              "element": "<ModifierGroupDetailPage />"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "schedules",
+      "children": [
+        {
+          "path": ":scheduleID",
+          "children": [
+            {
+              "index": true,
+              "element": "<ScheduleDetailPage />"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
