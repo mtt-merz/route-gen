@@ -27,3 +27,6 @@ yarn-error.log*
 
 # Package manager lock files
 pnpm-lock.yaml
+
+# Package output
+**/routes.*

@@ -13,10 +13,10 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["**/*.js"]
+    "ignore": ["**/*.js", "routes.ts"]
   },
   "formatter": {
     "indentStyle": "space",
-    "ignore": ["**/*.js"]
+    "ignore": ["**/*.js", "routes.tsx"]
   }
 }

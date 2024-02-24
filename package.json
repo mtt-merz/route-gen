@@ -4,10 +4,11 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "nodemon src/main.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "check": "biome check --apply ."
+    "build:watch": "tsc --watch",
+    "check": "biome check --apply .",
+    "dev": "concurrently \"sleep 3 && nodemon build/main.js\" \"pnpm run build:watch\" --names node,tsc --prefix-colors magenta,cyan",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
+    "concurrently": "^8.2.2",
     "typescript": "^5.3.3"
   }
 }

@@ -1,14 +1,17 @@
 import { writeFileSync } from "fs";
+import { join } from "node:path";
 import config from "./config.json";
-import { buildRoutes } from "./utils";
+import { buildRoute } from "./lib/builder";
+import { printRoute } from "./lib/printer";
 
 const main = () => {
-  const routes = buildRoutes(config.path);
+  const route = buildRoute(config.path);
 
-  const outPath = `${config.exportPath}/routes.json`;
-  writeFileSync(outPath, JSON.stringify(routes, null, 2));
+  const exportFullPath = join(config.exportPath, "routes.tsx");
+  const data = printRoute(route);
+  writeFileSync(exportFullPath, data);
 
-  console.log(`Routes written successfully in ${outPath}`);
+  console.log(`Routes written successfully in ${exportFullPath}`);
 };
 
 main();
