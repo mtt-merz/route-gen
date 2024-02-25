@@ -1,5 +1,6 @@
 import { readdirSync } from "fs";
 import { join } from "node:path";
+import { Dirent } from "./app";
 import { findElement } from "./utils";
 
 export type Route = {
@@ -14,19 +15,25 @@ export type RouteElement = {
   path: string;
 };
 
-export const buildRoute = (path: string, name = "/"): Route => {
-  const fullPath = join(path, name);
+/**
+ * Analyse the content files of a directory to recursively generate a route.
+ *
+ * @param {Dirent} dirent is the directory
+ * @return {Route} the route contained in the directory
+ * */
+export const buildRoute = (dirent: Dirent): Route => {
+  const fullPath = join(dirent.path, dirent.name);
   const dirents = readdirSync(fullPath, { withFileTypes: true });
 
   const children = dirents
     .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith("_"))
-    .map((dirent) => buildRoute(dirent.path, dirent.name));
+    .map(buildRoute);
 
   const page = findElement("page", dirents);
   if (page) children.push({ index: true, element: page });
 
   return {
-    path: name,
+    path: dirent.name,
     element: findElement("layout", dirents),
     children: children.length ? children : undefined,
   };

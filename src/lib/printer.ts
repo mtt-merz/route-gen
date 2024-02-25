@@ -1,17 +1,17 @@
 import { Route } from "./builder";
 import { removeQuotesFromJsonKeys, removeQuotesInsideBrackets } from "./utils";
 
-type InternalRoute = {
+type ResolvedRoute = {
   index?: undefined | boolean;
   path?: undefined | string;
   element?: undefined | string;
-  children?: undefined | Array<InternalRoute>;
+  children?: undefined | Array<ResolvedRoute>;
 };
 
-export const printRoute = (tempRoute: Route): string => {
-  const { imports, route } = resolveRouteElements(tempRoute);
+export const printRoute = (route: Route): string => {
+  const { imports, resolvedRoute } = resolveRouteElements(route);
 
-  let formattedRoute = JSON.stringify(route, null, 2);
+  let formattedRoute = JSON.stringify(resolvedRoute, null, 2);
   formattedRoute = removeQuotesFromJsonKeys(formattedRoute);
   formattedRoute = removeQuotesInsideBrackets(formattedRoute);
   const body = `export const routes = [${formattedRoute}];`;
@@ -20,10 +20,10 @@ export const printRoute = (tempRoute: Route): string => {
 };
 
 const resolveRouteElements = (
-  tempRoute: Route,
+  route: Route,
   tempImports: Array<string> = [],
-): { route: InternalRoute; imports: Array<string> } => {
-  const { element, children } = tempRoute;
+): { resolvedRoute: ResolvedRoute; imports: Array<string> } => {
+  const { element, children } = route;
 
   const imports = [...tempImports];
   if (children)
@@ -35,18 +35,18 @@ const resolveRouteElements = (
 
   if (element) {
     const { name, path } = element;
-    imports.push(
-      `import { ${name} } from "${path.substring(0, path.length - 3)}"; `,
-    );
+    const relativePath = path.replace(/.*\/app/, "./app");
+
+    imports.push(`import { ${name} } from "${relativePath}";`);
   }
 
   return {
     imports,
-    route: {
-      ...tempRoute,
+    resolvedRoute: {
+      ...route,
       element: element && `<${element.name} />`,
       children: children?.map(
-        (child) => resolveRouteElements(child, imports).route,
+        (child) => resolveRouteElements(child, imports).resolvedRoute,
       ),
     },
   };

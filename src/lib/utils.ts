@@ -15,7 +15,7 @@ export const findElement = (
   return (
     file && {
       name: getComponentName(file),
-      path: join(file.path, file.name),
+      path: join(file.path, file.name.split(".")[0]),
     }
   );
 };
