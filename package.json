@@ -1,6 +1,6 @@
 {
   "name": "rrcodegen",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "src/main.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@biomejs/biome": "^1.5.3",
+    "@types/react": "^18.2.58",
     "nodemon": "^3.0.3"
   },
   "devDependencies": {
