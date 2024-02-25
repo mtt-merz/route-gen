@@ -1,5 +1,4 @@
 import { Route } from "./builder";
-import { removeQuotesFromJsonKeys, removeQuotesInsideBrackets } from "./utils";
 
 type ResolvedRoute = {
   index?: undefined | boolean;
@@ -51,3 +50,13 @@ const resolveRouteElements = (
     },
   };
 };
+
+const removeQuotesFromJsonKeys = (jsonString: string): string => {
+  const regex = /"([^"]+)"\s*:/g;
+  return jsonString.replace(regex, "$1:");
+};
+
+function removeQuotesInsideBrackets(jsonString: string): string {
+  const regex = /"(<[^>]+>)"/g;
+  return jsonString.replace(regex, "$1");
+}
