@@ -2,7 +2,11 @@
   "name": "route-gen",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "A file-based route generator for React Router",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mtt-merz/route-gen"
+  },
   "bin": "src/main.ts",
   "scripts": {
     "build": "tsc",
@@ -11,8 +15,8 @@
     "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["react-router", "codegen", "file-based"],
+  "author": "Matteo Merz",
   "license": "ISC",
   "dependencies": {
     "@biomejs/biome": "^1.5.3",
