@@ -1,13 +1,15 @@
 {
   "name": "@m-mrz/route-gen",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A file-based route generator for React Router",
   "repository": {
     "type": "git",
     "url": "https://github.com/mtt-merz/route-gen"
   },
-  "bin": "src/main.ts",
+  "bin": {
+    "route-gen": "src/main.ts"
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
