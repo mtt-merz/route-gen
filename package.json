@@ -7,7 +7,9 @@
     "type": "git",
     "url": "https://github.com/mtt-merz/route-gen"
   },
-  "bin": "src/main.ts",
+  "bin": {
+    "route-gen": "src/main.ts"
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
