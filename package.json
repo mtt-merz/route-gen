@@ -1,5 +1,5 @@
 {
-  "name": "route-gen",
+  "name": "@m-mrz/route-gen",
   "type": "module",
   "version": "1.0.0",
   "description": "A file-based route generator for React Router",
