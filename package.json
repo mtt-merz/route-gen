@@ -1,13 +1,14 @@
 {
-  "name": "rrcodegen",
-  "version": "0.0.0",
+  "name": "route-gen",
+  "type": "module",
+  "version": "1.0.0",
   "description": "",
-  "main": "src/main.js",
+  "bin": "src/main.ts",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
     "check": "biome check --apply .",
-    "dev": "concurrently \"sleep 3 && nodemon build/main.js\" \"pnpm run build:watch\" --names node,tsc --prefix-colors magenta,cyan",
+    "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^20.11.20",
     "concurrently": "^8.2.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }

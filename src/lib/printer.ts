@@ -1,4 +1,4 @@
-import { Route } from "./builder";
+import { Route } from "./builder.js";
 
 type ResolvedRoute = {
   index?: undefined | boolean;

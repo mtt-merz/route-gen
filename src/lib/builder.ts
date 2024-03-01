@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "node:path";
-import { Dirent } from "./app";
+import { Dirent } from "./app.js";
 
 export type Route = {
   index?: undefined | boolean;
