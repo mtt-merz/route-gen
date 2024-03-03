@@ -7,7 +7,6 @@ import { buildRoute } from "./lib/builder.js";
 import { printRoute } from "./lib/printer.js";
 
   const app = getAppDirent();
-  if (!app) throw new Error("No app available");
 
   const route = buildRoute(app);
   const path = join(app.path, "routes.tsx");

@@ -1,23 +1,16 @@
-import { readdirSync } from "fs";
-import { join } from "node:path";
+import { Dirent as FsDirent } from "fs";
+import { parse } from "node:path";
+import { config } from "../config.js";
 
-export type Dirent = ReturnType<typeof readdirSync>[number];
+export type Dirent = Pick<FsDirent, "path" | "name" | "isDirectory" | "isFile">;
 
-/**
- * Recursively looks for a directory called "app", starting from the specified path.
- *
- * @param {string} path is the starting point of the search, default to the working directory.
- * @return {undefined | Dirent} the app directory or undefined.
- */
-export const getAppDirent = (path = "."): undefined | Dirent => {
-  const dirents = readdirSync(path, { withFileTypes: true });
+export const getAppDirent = (): Dirent => {
+  const path = parse(config.root);
 
-  for (const dirent of dirents) {
-    if (!dirent.isDirectory()) continue;
-    if (dirent.name === "app") return dirent;
-
-    const direntFullPath = join(dirent.path, dirent.name);
-    const app = getAppDirent(direntFullPath);
-    if (app) return app;
-  }
+  return {
+    path: path.dir,
+    name: path.name,
+    isDirectory: () => true,
+    isFile: () => false,
+  };
 };
