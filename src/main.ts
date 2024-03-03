@@ -2,15 +2,14 @@
 
 import { writeFileSync } from "fs";
 import { join } from "node:path";
-import { getAppDirent } from "./lib/app.js";
 import { buildRoute } from "./lib/builder.js";
 import { printRoute } from "./lib/printer.js";
+import { getRootDirent } from "./lib/utils.js";
 
-  const app = getAppDirent();
-  if (!app) throw new Error("No app available");
+const root = getRootDirent();
 
-  const route = buildRoute(app);
-  const path = join(app.path, "routes.tsx");
-  writeFileSync(path, printRoute(route));
+const route = buildRoute(root);
+const path = join(root.path, "routes.tsx");
+writeFileSync(path, printRoute(route));
 
-  console.log("Routes written successfully");
+console.log("Routes written successfully");
