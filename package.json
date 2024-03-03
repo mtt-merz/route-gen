@@ -17,7 +17,11 @@
     "dev": "nodemon src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["react-router", "codegen", "file-based"],
+  "keywords": [
+    "react-router",
+    "codegen",
+    "file-based"
+  ],
   "author": "Matteo Merz",
   "license": "ISC",
   "dependencies": {
