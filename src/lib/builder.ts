@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from "fs";
-import { join } from "node:path";
-import { Dirent } from "./utils";
+import { join, parse } from "node:path";
+import { Dirent } from "./utils.js";
 
 export type Route = {
   index?: undefined | boolean;
@@ -49,7 +49,7 @@ const findElement = (
   return (
     file && {
       name: getComponentName(file),
-      path: join(file.path, file.name.split(".")[0]),
+      path: getComponentPath(file),
     }
   );
 };
@@ -63,4 +63,9 @@ const getComponentName = (file: Dirent): string => {
   const match = reactComponentRegex.exec(data);
   if (match?.length) return match[0];
   throw new Error(`Could not find component '${file.path}'`);
+};
+
+const getComponentPath = (file: Dirent): string => {
+  const path = parse(join(file.path, file.name));
+  return join(path.dir, path.name);
 };
