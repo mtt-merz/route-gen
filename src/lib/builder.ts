@@ -2,11 +2,11 @@ import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "node:path";
 import { Dirent } from "./utils.js";
 
-export type Route = {
+export type RouteData = {
   index?: undefined | boolean;
   path?: undefined | string;
   element?: undefined | RouteElement;
-  children?: undefined | Array<Route>;
+  children?: undefined | Array<RouteData>;
 };
 
 export type RouteElement = {
@@ -18,9 +18,9 @@ export type RouteElement = {
  * Analyse the content files of a directory to recursively generate a route.
  *
  * @param {Dirent} dirent is the directory
- * @return {Route} the route contained in the directory
+ * @return {RouteData} the route data contained in the directory
  * */
-export const buildRoute = (dirent: Dirent): Route => {
+export const buildRoute = (dirent: Dirent): RouteData => {
   const fullPath = join(dirent.path, dirent.name);
   const dirents = readdirSync(fullPath, { withFileTypes: true });
 
