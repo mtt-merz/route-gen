@@ -6,10 +6,12 @@ import { buildRoute } from "./lib/builder.js";
 import { printRoute } from "./lib/printer.js";
 import { getRootDirent } from "./lib/utils.js";
 
+console.log("Generating routes...");
+
 const root = getRootDirent();
 
 const route = buildRoute(root);
 const path = join(root.path, "routes.tsx");
 writeFileSync(path, printRoute(route));
 
-console.log("Routes written successfully");
+console.log("\nRoutes have been generated in", path);

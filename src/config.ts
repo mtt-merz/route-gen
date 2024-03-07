@@ -16,7 +16,6 @@ const loadConfig = (): null | Config => {
     const config = JSON.parse(rawConfigData.toString());
     return Config.parse(config);
   } catch {
-    console.log("Local configuration not found, using default values.");
     return null;
   }
 };
