@@ -1,54 +1,86 @@
-import { Route } from "./builder.js";
+import { RouteData, RouteElement } from "./builder.js";
 
-type ResolvedRoute = {
+type Route = {
   index?: undefined | boolean;
   path?: undefined | string;
   element?: undefined | string;
-  children?: undefined | Array<ResolvedRoute>;
+  children?: undefined | Array<Route>;
 };
 
-export const printRoute = (route: Route): string => {
-  const { imports, resolvedRoute } = resolveRouteElements(route);
+export const printRoute = (data: RouteData): string => {
+  const { imports, paramHooks, routes } = resolveData(data);
 
-  let formattedRoute = JSON.stringify(resolvedRoute, null, 2);
-  formattedRoute = removeQuotesFromJsonKeys(formattedRoute);
-  formattedRoute = removeQuotesInsideBrackets(formattedRoute);
-  const body = `export const routes = [${formattedRoute}];`;
+  let formattedRoutes = JSON.stringify(routes, null, 2);
+  formattedRoutes = removeQuotesFromJsonKeys(formattedRoutes);
+  formattedRoutes = removeQuotesInsideBrackets(formattedRoutes);
 
-  return `${imports.join("\n")}\n\n${body}\n`;
+  return (
+    `${Array.from(imports).join("\n")}\n` +
+    `${Array.from(paramHooks).join("\n")}\n\n` +
+    `export const routes = [${formattedRoutes}];`
+  );
 };
 
-const resolveRouteElements = (
-  route: Route,
-  tempImports: Array<string> = [],
-): { resolvedRoute: ResolvedRoute; imports: Array<string> } => {
-  const { element, children } = route;
-
-  const imports = [...tempImports];
-  if (children)
-    imports.push(
-      ...children.flatMap(
-        (child) => resolveRouteElements(child, imports).imports,
-      ),
-    );
+const resolveData = (
+  data: RouteData,
+  imports: Set<string> = new Set(),
+  paramHooks: Set<string> = new Set(),
+): {
+  imports: Set<string>;
+  paramHooks: Set<string>;
+  routes: Route;
+} => {
+  const { path, element, children } = data;
 
   if (element) {
-    const { name, path } = element;
-    const relativePath = path.replace(/.*\/app/, "./app");
+    const elementImport = printImport(element);
+    imports.add(elementImport);
+  }
 
-    imports.push(`import { ${name} } from "${relativePath}";`);
+  if (path?.startsWith(":")) {
+    const paramHook = printHook(path);
+    paramHooks.add(paramHook);
+  }
+
+  const childrenRoutes = [];
+  for (const child of children ?? []) {
+    const resolvedChild = resolveData(child, imports, paramHooks);
+
+    childrenRoutes.push(resolvedChild.routes);
+    for (const imp of resolvedChild.imports) imports.add(imp);
+    for (const hook of resolvedChild.paramHooks) paramHooks.add(hook);
+  }
+
+  if (paramHooks.size) {
+    imports.add(`import { useParams } from "react-router-dom";`);
   }
 
   return {
     imports,
-    resolvedRoute: {
-      ...route,
+    paramHooks,
+    routes: {
+      ...data,
       element: element && `<${element.name} />`,
-      children: children?.map(
-        (child) => resolveRouteElements(child, imports).resolvedRoute,
-      ),
+      children: childrenRoutes,
     },
   };
+};
+
+const printImport = (element: RouteElement): string => {
+  const { name, path } = element;
+  return `import { ${name} } from "${path}";`;
+};
+
+const printHook = (path: string): string => {
+  const name = path.slice(1);
+  const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
+
+  return `
+const use${nameCapitalized}Param = (): string  => {
+  const { ${name} } = useParams();
+  if (!${name}) throw new Error("\\"${name}\\" is not a valid path parameter");
+  return ${name};
+};`;
 };
 
 const removeQuotesFromJsonKeys = (jsonString: string): string => {

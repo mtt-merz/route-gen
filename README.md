@@ -7,11 +7,11 @@ Route-Gen is a Node package designed to streamline the process of generating rou
 You can install Route-Gen using npm or pnpm:
 
 ```bash
-npm install @mt-mrz/route-gen
+npm install @m-mrz/route-gen
 ```
 
 ```bash
-pnpm install @mt-mrz/route-gen
+pnpm install @m-mrz/route-gen
 ```
 
 ## Usage
