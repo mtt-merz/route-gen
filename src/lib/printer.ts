@@ -1,6 +1,6 @@
-import { RouteData, RouteElement } from "./builder.js";
-import {relative, sep} from "node:path";
+import { relative, sep } from "node:path";
 import { config } from "../config.js";
+import { RouteData, RouteElement } from "./builder.js";
 
 type Route = {
   index?: undefined | boolean;
@@ -44,14 +44,14 @@ const resolveData = (
     paramHooks.add(paramHook);
   }
 
-  const childrenRoutes = [];
-  for (const child of children ?? []) {
+  const childrenRoutes = children?.map((child) => {
     const resolvedChild = resolveData(child, imports, paramHooks);
 
-    childrenRoutes.push(resolvedChild.routes);
     for (const imp of resolvedChild.imports) imports.add(imp);
     for (const hook of resolvedChild.paramHooks) paramHooks.add(hook);
-  }
+
+    return resolvedChild.routes;
+  });
 
   if (paramHooks.size) {
     imports.add(`import { useParams } from "react-router-dom";`);
