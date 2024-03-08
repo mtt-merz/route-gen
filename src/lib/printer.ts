@@ -1,4 +1,6 @@
 import { RouteData, RouteElement } from "./builder.js";
+import {relative, sep} from "node:path";
+import { config } from "../config.js";
 
 type Route = {
   index?: undefined | boolean;
@@ -7,7 +9,7 @@ type Route = {
   children?: undefined | Array<Route>;
 };
 
-export const printRoute = (data: RouteData): string => {
+export const transcribe = (data: RouteData): string => {
   const { imports, paramHooks, routes } = resolveData(data);
 
   let formattedRoutes = JSON.stringify(routes, null, 2);
@@ -68,7 +70,9 @@ const resolveData = (
 
 const printImport = (element: RouteElement): string => {
   const { name, path } = element;
-  return `import { ${name} } from "${path}";`;
+  const root = config.root.split(sep).slice(0, -1).join(sep);
+
+  return `import { ${name} } from "./${relative(root, path)}";`;
 };
 
 const printHook = (path: string): string => {
