@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 import { writeFileSync } from "fs";
 import { join } from "node:path";

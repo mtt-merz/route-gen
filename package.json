@@ -8,13 +8,14 @@
     "url": "https://github.com/mtt-merz/route-gen"
   },
   "bin": {
-    "route-gen": "src/main.ts"
+    "route-gen": "dist/main.js"
   },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
     "check": "biome check --apply .",
-    "dev": "nodemon src/main.ts",
+    "dev": "concurrently \"sleep 2 && node dist/main.js\" \"pnpm run build\" --names node,build --prefix-colors blue,green",
+    "postinstall": "pnpm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -34,7 +35,6 @@
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.3",
     "react-router": "^6.22.2",
-    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
