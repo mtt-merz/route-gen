@@ -43,7 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 Route-Gen relies on a specific project structure to generate routes correctly. The structure is highly inspired by the [App Router](https://nextjs.org/docs/getting-started/project-structure) of Next.js.
 
-All views should be put into a configurable root folder, by default `src/app`.
+All views should be put into a configurable root folder, by default `src/pages`.
 Here, the folder structure mirrors the routes specified in the router.
 For instance, if we have two routes `/books` and `/books/:bookID` we will have the following structure.
 
@@ -98,7 +98,7 @@ Here's the default configuration:
 
 ```json
 {
-  "root": "src/app"
+  "root": "src/pages"
 }
 ```
 

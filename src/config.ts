@@ -21,7 +21,7 @@ const loadConfig = (): null | Config => {
 };
 
 const defaultConfig: Config = {
-  root: "./src/app",
+  root: "./src/pages",
 };
 
 export const config: Config = {
