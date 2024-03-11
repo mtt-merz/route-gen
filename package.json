@@ -24,7 +24,7 @@
     "file-based"
   ],
   "author": "Matteo Merz",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "zod": "^3.22.4"
   },
