@@ -18,21 +18,22 @@ export type RouteElement = {
  * Analyse the content files of a directory to recursively generate a route.
  *
  * @param {Dirent} dirent is the directory
+ * @param {boolean} isRoot tells if the current dirent is the root
  * @return {RouteData} the route data contained in the directory
  * */
-export const buildRoute = (dirent: Dirent): RouteData => {
+export const buildRoute = (dirent: Dirent, isRoot = true): RouteData => {
   const fullPath = join(dirent.path, dirent.name);
   const dirents = readdirSync(fullPath, { withFileTypes: true });
 
   const children = dirents
     .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith("_"))
-    .map(buildRoute);
+    .map((dirent) => buildRoute(dirent, false));
 
   const page = findElement("page", dirents);
   if (page) children.push({ index: true, element: page });
 
   return {
-    path: dirent.name,
+    path: isRoot ? "/" : dirent.name,
     element: findElement("layout", dirents),
     children: children.length ? children : undefined,
   };
