@@ -1,7 +1,7 @@
 {
   "name": "@m-mrz/route-gen",
   "type": "module",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A file-based route generator for React Router",
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "file-based"
   ],
   "author": "Matteo Merz",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "zod": "^3.22.4"
   },
