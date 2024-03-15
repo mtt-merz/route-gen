@@ -26,6 +26,7 @@
   "author": "Matteo Merz",
   "license": "MIT",
   "dependencies": {
+    "typescript": "^5.3.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -34,7 +35,6 @@
     "@types/react": "^18.2.58",
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.3",
-    "react-router": "^6.22.2",
-    "typescript": "^5.3.3"
+    "react-router": "^6.22.2"
   }
 }

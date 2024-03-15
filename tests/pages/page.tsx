@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
 
-export const RootPage: React.FC = () => {
+export function RootPage() {
   return <Navigate to="/items" />;
-};
+}
