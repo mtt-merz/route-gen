@@ -1,4 +1,4 @@
-import { relative, sep } from "node:path";
+import { relative } from "node:path";
 import { config } from "../config.js";
 import { RouteData, RouteElement } from "./builder.js";
 
@@ -70,7 +70,7 @@ const resolveData = (
 
 const printImport = (element: RouteElement): string => {
   const { name, path } = element;
-  const root = config.root.split(sep).slice(0, -1).join(sep);
+  const root = config.root;
 
   return `import { ${name} } from "./${relative(root, path)}";`;
 };
