@@ -1,6 +1,5 @@
 import { readFileSync, readdirSync } from "fs";
 import { join, parse } from "node:path";
-import { findComponentName } from "../modules/visiter/index.js";
 import { Dirent } from "./utils.js";
 
 export type RouteData = {
@@ -57,10 +56,14 @@ const findElement = (
 };
 
 const getComponentName = (file: Dirent): string => {
-  const filePath = `${file.path}/${file.name}`;
-  const fileContent = readFileSync(filePath, "utf8");
+  const data = readFileSync(`${file.path}/${file.name}`, "utf8");
 
-  return findComponentName(filePath, fileContent);
+  const reactComponentRegex =
+    /(?<=\bexport\s+const\s+|export\s+default\s+const\s+)[A-Z][a-zA-Z0-9_]*(?=\s*:\s*React\.FC)/g;
+
+  const match = reactComponentRegex.exec(data);
+  if (match?.length) return match[0];
+  throw new Error(`Could not find component '${file.path}'`);
 };
 
 const getComponentPath = (file: Dirent): string => {
