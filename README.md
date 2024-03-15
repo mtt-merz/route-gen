@@ -1,7 +1,8 @@
 # Route-Gen
 
-Route-Gen is a Node.js package designed to streamline the routes definition process in React. 
-It automatically generates routes for [React Router](https://reactrouter.com/en/main) (v6), depending on the file structure of your project.
+Route-Gen is a Node.js package designed to streamline the routes definition process in React.
+It automatically generates routes for [React Router](https://reactrouter.com/en/main) (v6), depending on the file
+structure of your project.
 
 ## Installation
 
@@ -19,7 +20,8 @@ Once Route-Gen is installed, you can trigger the routes generation by running th
 route-gen
 ```
 
-This command will analyze the project structure and generate routes accordingly (see [Project Structure](#project-structure)).
+This command will analyze the project structure and generate routes accordingly (
+see [Project Structure](#project-structure)).
 Then, wrap your project entrypoint in a `RouteProvider` tag, providing the generated routes as follows.
 
 ```typescript jsx
@@ -35,70 +37,117 @@ import { routes } from "../routes"
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <RouterProvider router={router} />
+    <RouterProvider router={router}/>
 );
 ```
 
 ## Project Structure
 
-Route-Gen relies on a specific project structure to generate routes correctly. The structure is highly inspired by the [App Router](https://nextjs.org/docs/getting-started/project-structure) of Next.js.
+Route-Gen relies on a specific project structure to generate routes correctly. The structure is highly inspired by
+the [App Router](https://nextjs.org/docs/getting-started/project-structure) of Next.js.
 
-All views should be put into a configurable root folder, by default `src/pages`.
-Here, the folder structure mirrors the routes specified in the router.
-For instance, if we have two routes `/books` and `/books/:bookID` we will have the following structure.
+###  Use folders to represents routes
 
+All pages should be put into a parent folder called `pages`.
+Here, the folder structure will mirror the generated routes.
+For instance, if we plan to have two routes `/books` and `/books/:bookID` we should create the following structure.
 
 ```
-/
- └─ books/
-     └─ :bookID/
+pages/
+  └─ books/
+      └─ :bookID/
 ```
 
-In addition to the children routes folders, each route folder can have a bunch of files with a specific meaning.
+#### Static routes
 
-| File         | Description                                                                           |
-|--------------|---------------------------------------------------------------------------------------|
-| page.tsx     | The content of the route view. It should be present in every accepted route.          |
-| layout.tsx   | An optional layout component wrapping the route page and its children routes.         |
+**Static** routes are the classic routes, like the `/books` one in the previous example, where the route name is fixed in time.
+In this case, the folder name exactly mirror the name of the generated route.
 
-Additional files related to the route, such as components, are placed in separate folders. To differentiate them from the children routes, those additional folders start with an underscore.
+#### Dynamic routes
+
+On the other hand, **dynamic** routes are routes that can have a different value depending on the rendered element.
+Following the React Router convention, their folder name should have the `:` char as prefix, like the `/books/:bookID` route in the previous example.
+
+### Use files to represent elements 
+
+Each rendered route contains a bunch of elements with a specific meaning
+
+| Element  | Description                                                                  | Required |
+|----------|------------------------------------------------------------------------------|----------|
+| `page`   | The content of the route view. It should be present in every accepted route. | False    |
+| `layout` | The layout wrapping the route page, if any, and its children routes.         | False    |
+
+Each element should be put in a different file, and <u>the name of the file should mirror the name of the component</u>.
+To make the generator understand that a file represents a specific element we should end its name with the element name.
+
+For instance, consider the `/books` route of the previous example, and imagine it has both page and layout components.
+The resulting structure should be the following.
+
+```
+pages/
+  └─ books/
+      ├─ :bookID/...
+      ├─ BooksPage.tsx
+      └─ BooksLayout.tsx
+```
+
+### Utility folders
+
+A common need of React developers is to split a big component in several sub-components, for better readability and maintainability, that are usually put inside a `components` folder.
+
+Since in our convention each folder would represent a different route, we add the concept of **utility folders**, that is folders not considered in the generated routes tree.
+To differentiate them from traditional ones, their name should have the `_` char as prefix.
+
+By enriching the previous examples, the resulting structure is something like that.
+
+```
+pages/
+  └─ books/
+      ├─ _components/...
+      ├─ :bookID/...
+      ├─ BooksPage.tsx
+      └─ BooksLayout.tsx
+```
+
+### Structure Example
 
 Here an example of the resulting structure.
 
 ```
-/
-├─ items/
-│   └─ :itemID/
-│       ├─ _components/...
-│       ├─ _graphql/...
-│       └─ page.tsx
-├─ menus/
-│   └─ :menuID/
-│       ├─ _components/...
-│       ├─ _graphql/...
-│       └─ page.tsx
-└─ merchants/
-    ├─ :merchantID/
-    │   ├─ _components/...
-    │   ├─ _graphql/...
-    │   └─ page.tsx
-    ├─ menus/
-    │   ├─ _components/...
-    │   ├─ _graphql/...
-    │   └─ page.tsx
-    └─ layout.tsx
+pages/
+  ├─ items/
+  │   └─ :itemID/
+  │       ├─ _components/...
+  │       ├─ _graphql/...
+  │       └─ RootPage.tsx
+  ├─ menus/
+  │   └─ :menuID/
+  │       ├─ _components/...
+  │       ├─ _graphql/...
+  │       └─ RootPage.tsx
+  └─ merchants/
+      ├─ :merchantID/
+      │   ├─ _components/...
+      │   ├─ _graphql/...
+      │   └─ RootPage.tsx
+      ├─ menus/
+      │   ├─ _components/...
+      │   ├─ _graphql/...
+      │   └─ RootPage.tsx
+      └─ ItemDetailLayout.tsx
 ```
 
 ## Configuration
 
 To customize Route-Gen's behavior, create a `route-gen.json` file in the root of your project.
-Here, you can specify the root of the routes directory, which serves as the starting point for generated routes and where the generated routes will be placed.
+Here, you can specify the root of the `pages` directory, which serves as the starting point for generated routes and
+where the generated routes will be placed.
 
 Here's the default configuration:
 
 ```json
 {
-  "root": "src/pages"
+  "root": "./src"
 }
 ```
 
