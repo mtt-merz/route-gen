@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { isObject } from "./lib/utils.js";
+import { ConfigError } from "./lib/errors.js";
 
 const configKeys = ["root"] as const;
 type Config = Record<(typeof configKeys)[number], string>;
@@ -34,10 +35,10 @@ export const loadConfig = (): Config => {
   const config = parseJSON(rawConfig);
 
   if (!isObject(config))
-    throw new Error("The configuration file is not valid.");
+    throw new ConfigError("The configuration file is not valid.");
   for (const key of Object.keys(config)) {
     if (!configKeys.map(String).includes(key))
-      throw new Error(`Unknown configuration "${key}".`);
+      throw new ConfigError(`Unknown configuration "${key}".`);
   }
 
   return {
