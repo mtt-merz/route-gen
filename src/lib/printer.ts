@@ -1,5 +1,5 @@
 import { relative } from "node:path";
-import { config } from "../config.js";
+import { loadConfig } from "../config.js";
 import { RouteData, RouteElement } from "./builder.js";
 
 type Route = {
@@ -73,7 +73,7 @@ const resolveData = (
 
 const printImport = (element: RouteElement): string => {
   const { name, path } = element;
-  const root = config.root;
+  const root = loadConfig().root;
 
   return `import { ${name} } from "./${relative(root, path)}";`;
 };

@@ -25,9 +25,6 @@
   ],
   "author": "Matteo Merz",
   "license": "MIT",
-  "dependencies": {
-    "zod": "^3.22.4"
-  },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@types/node": "^20.11.20",
