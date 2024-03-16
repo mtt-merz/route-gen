@@ -1,11 +1,12 @@
 import { Dirent as FsDirent } from "fs";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { config } from "../config.js";
+import { loadConfig } from "../config.js";
 
 export type Dirent = Pick<FsDirent, "path" | "name" | "isDirectory" | "isFile">;
 
 export const getRootDirent = (): Dirent => {
+  const config = loadConfig();
   const dirent = {
     path: config.root,
     name: "pages",
@@ -19,3 +20,6 @@ export const getRootDirent = (): Dirent => {
 
   return dirent;
 };
+
+export const isObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object";
