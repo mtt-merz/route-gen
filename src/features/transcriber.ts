@@ -1,6 +1,10 @@
 import { relative } from "node:path";
-import { loadConfig } from "../config.js";
-import { RouteData, RouteElement } from "./builder.js";
+import { RouteData, RouteElement } from "../models/RouteData.js";
+import { loadConfig } from "../utils/config.js";
+import {
+  removeQuotesFromJsonKeys,
+  removeQuotesInsideBrackets,
+} from "../utils/utils.js";
 
 type Route = {
   index?: undefined | boolean;
@@ -9,6 +13,16 @@ type Route = {
   children?: undefined | Array<Route>;
 };
 
+/**
+ * Transcribe the route data to a string, with the following elements:
+ *  - imports
+ *  - paramHooks
+ *  - routes
+ *  This function is used to generate the routes.tsx file.
+ *
+ *  @param {RouteData} data is the route data
+ *  @return {string} the transcribed route
+ */
 export const transcribe = (data: RouteData): string => {
   const { imports, paramHooks, routes } = resolveData(data);
 
@@ -89,13 +103,3 @@ export const use${nameCapitalized}Param = (): string  => {
   return ${name};
 };`.slice(1);
 };
-
-const removeQuotesFromJsonKeys = (jsonString: string): string => {
-  const regex = /"([^"]+)"\s*:/g;
-  return jsonString.replace(regex, "$1:");
-};
-
-function removeQuotesInsideBrackets(jsonString: string): string {
-  const regex = /"(<[^>]+>)"/g;
-  return jsonString.replace(regex, "$1");
-}

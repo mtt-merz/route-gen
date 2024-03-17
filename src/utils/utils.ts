@@ -1,9 +1,7 @@
-import { Dirent as FsDirent } from "fs";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { loadConfig } from "../config.js";
-
-export type Dirent = Pick<FsDirent, "path" | "name" | "isDirectory" | "isFile">;
+import { Dirent } from "../models/Dirent.js";
+import { loadConfig } from "./config.js";
 
 export const getRootDirent = (): Dirent => {
   const config = loadConfig();
@@ -23,3 +21,13 @@ export const getRootDirent = (): Dirent => {
 
 export const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object";
+
+export const removeQuotesFromJsonKeys = (jsonString: string): string => {
+  const regex = /"([^"]+)"\s*:/g;
+  return jsonString.replace(regex, "$1:");
+};
+
+export const removeQuotesInsideBrackets = (jsonString: string): string => {
+  const regex = /"(<[^>]+>)"/g;
+  return jsonString.replace(regex, "$1");
+};

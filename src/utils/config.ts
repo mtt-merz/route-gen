@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
-import { isObject } from "./lib/utils.js";
-import { ConfigError } from "./lib/errors.js";
+import { ConfigError } from "../models/errors/ConfigError.js";
+import { isObject } from "./utils.js";
 
 const configKeys = ["root"] as const;
 type Config = Record<(typeof configKeys)[number], string>;
