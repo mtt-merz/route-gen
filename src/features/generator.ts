@@ -1,16 +1,12 @@
 import { writeFileSync } from "fs";
 import { join } from "node:path";
-import { Config } from "../models/Config.js";
-import { loadConfig } from "../utils/config.js";
-import { getRootDirent } from "../utils/utils.js";
+import { Dirent } from "../models/Dirent.js";
 import { scan } from "./scanner.js";
 import { transcribe } from "./transcriber.js";
 
-export const generateRoutes = (args: Partial<Config> = {}) => {
-  const config = loadConfig(args);
-
-  const root = getRootDirent(config.root);
-  const content = transcribe(scan(root), config.root);
+export const generateRoutes = (root: Dirent) => {
+  const route = scan(root);
+  const content = transcribe(route, root.path);
 
   const outPath = join(root.path, "routes.tsx");
   writeFileSync(outPath, content);

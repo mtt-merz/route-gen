@@ -1,21 +1,22 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, lstatSync } from "node:fs";
+import { join, parse } from "node:path";
 import { Dirent } from "../models/Dirent.js";
 
-export const getRootDirent = (path: string): Dirent => {
-  const dirent = {
-    path,
-    name: "pages",
-    isDirectory: () => true,
-    isFile: () => false,
-  };
-
-  const fullPath = join(dirent.path, dirent.name);
+export const getDirent = (...arg: Array<string>): Dirent => {
+  const fullPath = join(...arg);
   if (!existsSync(fullPath))
-    throw new Error(`Pages directory "${fullPath}" does not exist.`);
+    throw new Error(`Path "${fullPath}" does not exist.`);
 
-  return dirent;
-};
+  const path = parse(fullPath);
+  const stats = lstatSync(fullPath);
+
+  return {
+    path: path.dir,
+    name: path.base,
+    isDirectory: stats.isDirectory,
+    isFile: stats.isFile,
+  };
+}
 
 export const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object";
