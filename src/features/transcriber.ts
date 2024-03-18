@@ -1,6 +1,5 @@
 import { relative } from "node:path";
 import { RouteData, RouteElement } from "../models/RouteData.js";
-import { loadConfig } from "../utils/config.js";
 import {
   removeQuotesFromJsonKeys,
   removeQuotesInsideBrackets,
@@ -21,10 +20,11 @@ type Route = {
  *  This function is used to generate the routes.tsx file.
  *
  *  @param {RouteData} data is the route data
+ *  @param {string} root is the routes root path, used to resolve imports
  *  @return {string} the transcribed route
  */
-export const transcribe = (data: RouteData): string => {
-  const { imports, paramHooks, routes } = resolveData(data);
+export const transcribe = (data: RouteData, root: string): string => {
+  const { imports, paramHooks, routes } = resolveData(root, data);
 
   let formattedRoutes = JSON.stringify(routes, null, 2);
   formattedRoutes = removeQuotesFromJsonKeys(formattedRoutes);
@@ -41,6 +41,7 @@ export const transcribe = (data: RouteData): string => {
 };
 
 const resolveData = (
+  root: string,
   data: RouteData,
   imports: Set<string> = new Set(),
   paramHooks: Set<string> = new Set(),
@@ -52,7 +53,7 @@ const resolveData = (
   const { path, element, children } = data;
 
   if (element) {
-    const elementImport = printImport(element);
+    const elementImport = printImport({ ...element, root });
     imports.add(elementImport);
   }
 
@@ -62,7 +63,7 @@ const resolveData = (
   }
 
   const childrenRoutes = children?.map((child) => {
-    const resolvedChild = resolveData(child, imports, paramHooks);
+    const resolvedChild = resolveData(root, child, imports, paramHooks);
 
     for (const imp of resolvedChild.imports) imports.add(imp);
     for (const hook of resolvedChild.paramHooks) paramHooks.add(hook);
@@ -85,9 +86,8 @@ const resolveData = (
   };
 };
 
-const printImport = (element: RouteElement): string => {
-  const { name, path } = element;
-  const root = loadConfig().root;
+const printImport = (element: RouteElement & { root: string }): string => {
+  const { name, path, root } = element;
 
   return `import { ${name} } from "./${relative(root, path)}";`;
 };

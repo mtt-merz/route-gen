@@ -1,12 +1,10 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { Dirent } from "../models/Dirent.js";
-import { loadConfig } from "./config.js";
 
-export const getRootDirent = (): Dirent => {
-  const config = loadConfig();
+export const getRootDirent = (path: string): Dirent => {
   const dirent = {
-    path: config.root,
+    path,
     name: "pages",
     isDirectory: () => true,
     isFile: () => false,
