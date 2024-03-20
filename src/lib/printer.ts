@@ -83,9 +83,11 @@ const printHook = (path: string): string => {
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
 
   return `
-export const use${nameCapitalized}Param = (): string  => {
+export const use${nameCapitalized}Param = (): string => {
   const { ${name} } = useParams();
-  if (!${name}) throw new Error("\\"${name}\\" is not a valid path parameter");
+  if (!${name}) {
+    throw new Error("'${name}' is not a valid path parameter");
+  }
   return ${name};
 };`.slice(1);
 };
