@@ -1,7 +1,7 @@
 {
   "name": "@m-mrz/route-gen",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A file-based route generator for React Router",
   "repository": {
     "type": "git",
