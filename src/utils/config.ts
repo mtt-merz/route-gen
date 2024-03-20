@@ -1,15 +1,13 @@
 import { readFileSync } from "fs";
-import { isObject } from "./lib/utils.js";
-import { ConfigError } from "./lib/errors.js";
-
-const configKeys = ["root"] as const;
-type Config = Record<(typeof configKeys)[number], string>;
+import { Config, configKeys } from "../models/Config.js";
+import { ConfigError } from "../models/errors/ConfigError.js";
+import { isObject } from "./utils.js";
 
 const defaultConfig: Config = {
   root: "./src",
 };
 
-export const loadConfig = (): Config => {
+export const loadConfig = (args: Partial<Config>): Config => {
   const path = "route-gen.json";
 
   function read(): string {
@@ -44,5 +42,6 @@ export const loadConfig = (): Config => {
   return {
     ...defaultConfig,
     ...config,
+    ...args,
   };
 };

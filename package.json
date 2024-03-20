@@ -1,22 +1,23 @@
 {
   "name": "@m-mrz/route-gen",
   "type": "module",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "A file-based route generator for React Router",
   "repository": {
     "type": "git",
     "url": "https://github.com/mtt-merz/route-gen"
   },
   "bin": {
-    "route-gen": "dist/main.js"
+    "route-gen": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
     "check": "biome check --apply .",
-    "dev": "pnpm run build && node dist/main.js",
+    "dev": "pnpm run build && node dist/index.js -w",
     "prepublishOnly": "pnpm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [
     "react-router",
@@ -31,5 +32,8 @@
     "@types/react": "^18.2.58",
     "react-router": "^6.22.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0"
   }
 }

@@ -1,6 +1,9 @@
 import { relative } from "node:path";
-import { loadConfig } from "../config.js";
-import { RouteData, RouteElement } from "./builder.js";
+import { RouteData, RouteElement } from "../models/RouteData.js";
+import {
+  removeQuotesFromJsonKeys,
+  removeQuotesInsideBrackets,
+} from "../utils/utils.js";
 
 type Route = {
   index?: undefined | boolean;
@@ -9,8 +12,19 @@ type Route = {
   children?: undefined | Array<Route>;
 };
 
-export const transcribe = (data: RouteData): string => {
-  const { imports, paramHooks, routes } = resolveData(data);
+/**
+ * Transcribe the route data to a string, with the following elements:
+ *  - imports
+ *  - paramHooks
+ *  - routes
+ *  This function is used to generate the routes.tsx file.
+ *
+ *  @param {RouteData} data is the route data
+ *  @param {string} root is the routes root path, used to resolve imports
+ *  @return {string} the transcribed route
+ */
+export const transcribe = (data: RouteData, root: string): string => {
+  const { imports, paramHooks, routes } = resolveData(root, data);
 
   let formattedRoutes = JSON.stringify(routes, null, 2);
   formattedRoutes = removeQuotesFromJsonKeys(formattedRoutes);
@@ -27,6 +41,7 @@ export const transcribe = (data: RouteData): string => {
 };
 
 const resolveData = (
+  root: string,
   data: RouteData,
   imports: Set<string> = new Set(),
   paramHooks: Set<string> = new Set(),
@@ -38,7 +53,7 @@ const resolveData = (
   const { path, element, children } = data;
 
   if (element) {
-    const elementImport = printImport(element);
+    const elementImport = printImport({ ...element, root });
     imports.add(elementImport);
   }
 
@@ -48,7 +63,7 @@ const resolveData = (
   }
 
   const childrenRoutes = children?.map((child) => {
-    const resolvedChild = resolveData(child, imports, paramHooks);
+    const resolvedChild = resolveData(root, child, imports, paramHooks);
 
     for (const imp of resolvedChild.imports) imports.add(imp);
     for (const hook of resolvedChild.paramHooks) paramHooks.add(hook);
@@ -71,9 +86,8 @@ const resolveData = (
   };
 };
 
-const printImport = (element: RouteElement): string => {
-  const { name, path } = element;
-  const root = loadConfig().root;
+const printImport = (element: RouteElement & { root: string }): string => {
+  const { name, path, root } = element;
 
   return `import { ${name} } from "./${relative(root, path)}";`;
 };
@@ -83,19 +97,11 @@ const printHook = (path: string): string => {
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
 
   return `
-export const use${nameCapitalized}Param = (): string  => {
+export const use${nameCapitalized}Param = (): string => {
   const { ${name} } = useParams();
-  if (!${name}) throw new Error("\\"${name}\\" is not a valid path parameter");
+  if (!${name}) {
+    throw new Error("'${name}' is not a valid path parameter");
+  }
   return ${name};
 };`.slice(1);
 };
-
-const removeQuotesFromJsonKeys = (jsonString: string): string => {
-  const regex = /"([^"]+)"\s*:/g;
-  return jsonString.replace(regex, "$1:");
-};
-
-function removeQuotesInsideBrackets(jsonString: string): string {
-  const regex = /"(<[^>]+>)"/g;
-  return jsonString.replace(regex, "$1");
-}
