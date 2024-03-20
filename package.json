@@ -1,7 +1,7 @@
 {
   "name": "@m-mrz/route-gen",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A file-based route generator for React Router",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "build:watch": "tsc --watch",
     "check": "biome check --apply .",
     "dev": "pnpm run build && node dist/main.js",
-    "postinstall": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
