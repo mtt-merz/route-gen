@@ -20,9 +20,8 @@ Once Route-Gen is installed, you can trigger the routes generation by running th
 route-gen
 ```
 
-This command will analyze the project structure and generate routes accordingly (
-see [Project Structure](#project-structure)).
-Then, wrap your project entrypoint in a `RouteProvider` tag, providing the generated routes as follows.
+This command will analyze the project structure (see [Project Structure](#project-structure)) and generate routes accordingly.
+After that, wrap your project entrypoint in a `RouteProvider` tag, providing the generated routes as follows.
 
 ```typescript jsx
 import * as React from "react";
