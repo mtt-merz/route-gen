@@ -5,6 +5,7 @@ build/
 src/
 biome.json
 route-gen.json
+tsconfig.json
 
 # Configuration files
 *.config.js
@@ -13,3 +14,7 @@ route-gen.json
 # Version control files
 .git/
 .gitignore
+
+# Ide files
+.idea/
+.vscode/
