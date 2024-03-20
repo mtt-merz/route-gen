@@ -15,7 +15,7 @@
     "build:watch": "tsc --watch",
     "check": "biome check --apply .",
     "dev": "pnpm run build && node dist/index.js -w",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "rm -rf dist && pnpm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc --noEmit"
   },
