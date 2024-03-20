@@ -42,10 +42,11 @@ try {
     });
 
     watcher.on("all", (event, path) => {
-          console.log(`\nEvent ${event} for ${path}`);
-          generate();
-        },
-    );
+      if (event !== "change") {
+        console.log(`\nEvent ${event} for ${path}`);
+        generate();
+      }
+    });
   }
 } catch (error) {
   const errorString = error instanceof Error ? error.message : String(error);

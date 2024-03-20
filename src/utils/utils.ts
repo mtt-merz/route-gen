@@ -16,7 +16,7 @@ export const getDirent = (...arg: Array<string>): Dirent => {
     isDirectory: stats.isDirectory,
     isFile: stats.isFile,
   };
-}
+};
 
 export const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object";
