@@ -1,0 +1,20 @@
+# Development files
+tests/
+docs/
+build/
+src/
+biome.json
+route-gen.json
+tsconfig.json
+
+# Configuration files
+*.config.js
+.env
+
+# Version control files
+.git/
+.gitignore
+
+# Ide files
+.idea/
+.vscode/
