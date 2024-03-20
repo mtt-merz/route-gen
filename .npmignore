@@ -1,0 +1,15 @@
+# Development files
+tests/
+docs/
+build/
+src/
+biome.json
+route-gen.json
+
+# Configuration files
+*.config.js
+.env
+
+# Version control files
+.git/
+.gitignore
